@@ -1,0 +1,7 @@
+# Environment
+.env/
+__pycache__
+.vscode
+
+# Config File - Production
+config.py
