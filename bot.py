@@ -1,4 +1,4 @@
-from config import TELEGRAM_TOKEN, CHAT_ID
+from config import TELEGRAM_TOKEN
 import defi
 import logging, datetime, pytz
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
