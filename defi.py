@@ -11,10 +11,10 @@ def rtn_summary() -> str:
         str: Summary format
     """
     coin_data = get_coin_data()
-    summary = """Summary:"""
+    summary = """<b><u>Summary:</u></b>"""
     for x in coin_data:
         summary += f"""
-        {x}:
+        <b>{x}</b>:
             Avg 2 Week: {coin_data[x]["avg_2_week"]}
             Avg Hourly: {coin_data[x]["avg_hourly"]}
             Curr Price: {coin_data[x]["current_price"]}"""

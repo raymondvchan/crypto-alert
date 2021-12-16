@@ -34,7 +34,7 @@ def monitor_portfolio_stop(update: Update, context: CallbackContext):
 
 def summary(context):
     summary = defi.rtn_summary()
-    context.bot.send_message(context.job.context, text=summary)
+    context.bot.send_message(context.job.context, text=summary, parse_mode="HTML")
 
 
 dispatcher.add_handler(
