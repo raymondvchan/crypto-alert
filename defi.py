@@ -22,7 +22,7 @@ def rtn_summary(coin_data) -> str:
     return summary
 
 
-def reccommendations(coin_data) -> str:
+def recommendations(coin_data) -> str:
     """Returns any recommended actions based on coin data
 
     Args:

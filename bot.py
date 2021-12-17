@@ -41,7 +41,7 @@ def summary(context):
 
 def alert_actions(context):
     coin_data = defi.get_coin_data()
-    chat_text = defi.reccommendations(coin_data)
+    chat_text = defi.recommendations(coin_data)
     if len(chat_text) > 0:
         context.bot.send_message(context.job.context, text=chat_text, parse_mode="HTML")
 
