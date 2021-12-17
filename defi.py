@@ -4,13 +4,13 @@ from pycoingecko import CoinGeckoAPI
 from config import COINS
 
 
-def rtn_summary() -> str:
+def rtn_summary(coin_data) -> str:
     """[summary]
 
     Returns:
         str: Summary format
     """
-    coin_data = get_coin_data()
+
     summary = """<b><u>Summary:</u></b>"""
     for x in coin_data:
         summary += f"""
@@ -20,6 +20,26 @@ def rtn_summary() -> str:
             Curr Price: {coin_data[x]["current_price"]}"""
 
     return summary
+
+
+def reccommendations(coin_data) -> str:
+    """Returns any recommended actions based on coin data
+
+    Args:
+        coin_data ([type]): [description]
+
+    Returns:
+        str: [description]
+    """
+    rtn_text = ""
+    for coin in coin_data:
+        if coin_data[coin]["current_price"] >= coin_data[coin]["avg_2_week"]:
+            rtn_text += f"""[<b>{coin}] <u>Should be sold!</u></b>
+Avg 2 Week [ <b>{coin_data[coin]["avg_2_week"]}</b> ]
+Current [ <b>{coin_data[coin]["current_price"]}</b> ]
+
+"""
+    return rtn_text
 
 
 def get_coin_data() -> dict:

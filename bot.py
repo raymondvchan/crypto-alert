@@ -21,7 +21,8 @@ dispatcher = updater.dispatcher
 
 
 def monitor_portfolio_start(update: Update, context: CallbackContext):
-    context.job_queue.run_repeating(summary, 10, context=update.message.chat_id)
+    context.job_queue.run_repeating(summary, 3600, context=update.message.chat_id)
+    context.job_queue.run_repeating(alert_actions, 600, context=update.message.chat_id)
     context.bot.send_message(chat_id=update.effective_chat.id, text="Monitoring...")
 
 
@@ -33,8 +34,16 @@ def monitor_portfolio_stop(update: Update, context: CallbackContext):
 
 
 def summary(context):
-    summary = defi.rtn_summary()
+    coin_data = defi.get_coin_data()
+    summary = defi.rtn_summary(coin_data)
     context.bot.send_message(context.job.context, text=summary, parse_mode="HTML")
+
+
+def alert_actions(context):
+    coin_data = defi.get_coin_data()
+    chat_text = defi.reccommendations(coin_data)
+    if len(chat_text) > 0:
+        context.bot.send_message(context.job.context, text=chat_text, parse_mode="HTML")
 
 
 dispatcher.add_handler(
