@@ -21,6 +21,7 @@ dispatcher = updater.dispatcher
 
 
 def monitor_portfolio_start(update: Update, context: CallbackContext):
+    context.job_queue.start()
     context.job_queue.run_repeating(summary, 3600, context=update.message.chat_id)
     context.job_queue.run_repeating(alert_actions, 600, context=update.message.chat_id)
     context.bot.send_message(chat_id=update.effective_chat.id, text="Monitoring...")
