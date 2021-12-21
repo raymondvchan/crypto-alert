@@ -14,7 +14,15 @@ def rtn_summary(coin_data) -> str:
 
     summary = """<b><u>Summary:</u></b>"""
     for x in coin_data:
-        summary += f"""
+        if x == "fantom":
+            summary += f"""
+        <b>{x}</b>:
+            <u>Liquidation Price: <b>0.5827 - 3.518</b></u>
+            Avg 2 Week: {coin_data[x]["avg_2_week"]}
+            Avg Hourly: {coin_data[x]["avg_hourly"]}
+            <b><u>Curr Price: {coin_data[x]["current_price"]}</u></b>"""
+        else:
+            summary += f"""
         <b>{x}</b>:
             Avg 2 Week: {coin_data[x]["avg_2_week"]}
             Avg Hourly: {coin_data[x]["avg_hourly"]}
@@ -103,39 +111,42 @@ def get_collaterized_debt_positions() -> dict:
 
 
 if __name__ == "__main__":
-    result = get_collaterized_debt_positions()
-    # cg = CoinGeckoAPI()
+    # result = get_collaterized_debt_positions()
+    cg = CoinGeckoAPI()
 
-    # coin_data = {}
-    # current_prices = cg.get_price(ids=COINS, vs_currencies="usd")
-    # for coin in COINS:
-    #     coin_data[coin] = {}
+    coin_data = {}
+    current_prices = cg.get_price(ids=COINS, vs_currencies="usd")
+    for coin in COINS:
+        coin_data[coin] = {}
 
-    #     # Gather coin history
-    #     price_daily = cg.get_coin_market_chart_by_id(coin, "usd", 14, interval="daily")
-    #     df = pd.DataFrame(price_daily["prices"])
-    #     coin_data[coin]["avg_2_week"] = df[1].mean()
+        # Gather coin history
+        price_daily = cg.get_coin_market_chart_by_id(coin, "usd", 14, interval="daily")
+        df = pd.DataFrame(price_daily["prices"])
+        coin_data[coin]["avg_2_week"] = df[1].mean()
 
-    #     price_hourly = cg.get_coin_market_chart_by_id(coin, "usd", 1, interval="hourly")
-    #     df = pd.DataFrame(price_hourly["prices"])
-    #     coin_data[coin]["avg_hourly"] = df[1].mean()
+        price_hourly = cg.get_coin_market_chart_by_id(coin, "usd", 1, interval="hourly")
+        df = pd.DataFrame(price_hourly["prices"])
+        coin_data[coin]["avg_hourly"] = df[1].mean()
 
-    #     coin_data[coin]["current_price"] = current_prices[coin]["usd"]
+        coin_data[coin]["current_price"] = current_prices[coin]["usd"]
 
-    #     # Check if trade should happen
-    #     if coin_data[coin]["current_price"] >= coin_data[coin]["avg_2_week"]:
-    #         print(
-    #             f"""[{coin}] Should be sold. Avg 2 Week [{coin_data[coin]["avg_2_week"]}]  |  Current [{coin_data[coin]["current_price"]}]"""
-    #         )
+        # Check if trade should happen
+        if coin_data[coin]["current_price"] >= coin_data[coin]["avg_2_week"]:
+            print(
+                f"""[{coin}] Should be sold. Avg 2 Week [{coin_data[coin]["avg_2_week"]}]  |  Current [{coin_data[coin]["current_price"]}]"""
+            )
 
-    # print(datetime.now())
-    # print("""Summary:""")
-    # for x in coin_data:
-    #     print(
-    #         x,
-    #         f"""
-    #         Avg 2 Week: {coin_data[x]["avg_2_week"]}
-    #         Avg Hourly: {coin_data[x]["avg_hourly"]}
-    #         Curr Price: {coin_data[x]["current_price"]}""",
-    #     )
+    print(datetime.now())
+    print("""Summary:""")
+    for x in coin_data:
+        if x == "fantom":
+            print("Liquidation Price: 0.5827 - 3.518")
+        else:
+            print(
+                x,
+                f"""
+            Avg 2 Week: {coin_data[x]["avg_2_week"]}
+            Avg Hourly: {coin_data[x]["avg_hourly"]}
+            Curr Price: {coin_data[x]["current_price"]}""",
+            )
     print("End of script")
