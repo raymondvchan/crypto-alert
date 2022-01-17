@@ -5,3 +5,4 @@ __pycache__
 
 # Config File - Production
 config.py
+tarot_config.py
